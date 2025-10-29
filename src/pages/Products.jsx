@@ -47,17 +47,47 @@ export default function Products() {
   };
 
   const handleSubmit = async (formData) => {
-    setLoading(false);
-    try {
-      await api.post("/products", formData);
-      showSuccess("Produit ajouté avec succès");
-      fetchProducts()
-    } catch (error) {
-      showError("Erreur de l'ajout du produit");
-    } finally {
-      setLoading(false);
+    if (editingProduct) {
+      // Editing an existing product
+      try {
+        const result = await api.put(`/products/${editingProduct.id}`, {
+          name: formData.name,
+          description: formData.description,
+          price: formData.price,
+          stock: formData.stock,
+        });
+        setProducts((prevProducts) =>
+          prevProducts.map((product) =>
+            product.id === editingProduct.id ? result.data : product
+          )
+        );
+        showSuccess("Produit modifié avec succès !");
+      } catch (error) {
+        console.error("Erreur lors de la sauvegarde du produit :", error);
+        showError("Erreur lors de la sauvegarde du produit !");
+      } finally {
+        setEditingProduct(null);
+        fetchProducts();
+      }
+    } else {
+      try {
+        const result = await api.post("/products", {
+          name: formData.name,
+          description: formData.description,
+          price: formData.price,
+          stock: formData.stock,
+        });
+        setProducts((prevProducts) => [...prevProducts, result.data]);
+        showSuccess("Produit créé avec succès !");
+      } catch (error) {
+        console.error("Erreur lors de la sauvegarde du produit :", error);
+        showError("Erreur lors de la sauvegarde du produit !");
+      } finally {
+        setEditingProduct(null);
+        fetchProducts();
+      }
     }
-  };
+  }
 
   const handleEdit= (product) => {
     setEditingProduct(product)
@@ -84,7 +114,10 @@ export default function Products() {
       </div>
 
       <div>
-        <ProductList products={products} handleDelete={handleDelete} handleEdit={handleEdit}/>
+        <ProductList 
+        products={products} 
+        handleDelete={handleDelete} 
+        handleEdit={handleEdit}/>
       </div>
     </div>
   );

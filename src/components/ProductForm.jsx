@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 export default function ProductForm ({ onSubmit, product }) {
     const [formData, setFormData] = useState({
         name:'',
+        description: '',
         price:0, 
         stock:0,
     })
@@ -13,22 +14,28 @@ export default function ProductForm ({ onSubmit, product }) {
         if (product) {
             setFormData({
                 name: product.name || '',
+                description: product.description || '',
                 price: product.price || '',
                 stock: product.stock || '',
             })
         } else {
-            setFormData({ name: '', price: '', stock:'' })
+            setFormData({ name: '', description: '', price: '', stock:'' })
         }
     }, [product])
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value})
-        console.log(formData)
     }
 
     const handleSubmit = (e) => {
         e.preventDefault()
         onSubmit(formData)
+        setFormData({
+            name: "",
+            description: "",
+            price: "",
+            stock: "",
+        });
     }
 
     return (
