@@ -1,5 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import { useAuth } from '../contexts/AuthContext.jsx'
+import { useNotification } from '../contexts/NotificationContext.jsx'
 
 export default function Register() {
 
@@ -9,24 +11,38 @@ export default function Register() {
         email: '',
         password:'',
     })
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
+    const { showSuccess, showError } = useNotification()
 
-
+    const { register } = useAuth()
     const handleChange = (e) =>{
         setFormData({ ...formData, [e.target.name]: e.target.value})
     }
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        navigate('/products')
+        const result = await register(
+            formData.name,
+            formData.email,
+            formData.password
+        )
+        if (result.success) {
+            showSuccess(result.message)
+            navigate('/Products')
+        } else {
+            showError(result.error)
+            setError(result.error) 
+        }
+        setLoading(false)
     }
 
     return (
-        <div className= 'min-h-screen flex items-center justify-center bg-gray-50y-50'>
+        <div className= 'min-h-screen flex items-center justify-center bg-black'>
             <div className='max-w-md w-full bg-white p-8 rounded-lg shadow-md'>
                 <h2 className='text-3xl font-bold mb-8 text-center text-gray-50y-800'>
                     Inscription
                 </h2>
-
+                    {error && <p className='text-red-500 text-center'>{error}</p>}
                 <form 
                 className='space-y-6' 
                 onSubmit={handleSubmit}>
@@ -100,4 +116,7 @@ export default function Register() {
             </div>
         </div>
     )
+
 }
+
+
