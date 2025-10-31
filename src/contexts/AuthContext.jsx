@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
         } catch (error) {
             return {
                 success: false,
-                error: error.response?.data?.error || "Une erreur est survenue",
+                error: error.response?.data.data?.error || "Une erreur est survenue",
             }
         }
     };
@@ -49,7 +49,7 @@ export const AuthProvider = ({ children }) => {
     
     const login = async (email, password) => {
         try {
-            const response = await api.post("/login", {
+            const response = await api.post("/auth/login", {
                 email,
                 password
             });

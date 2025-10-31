@@ -16,7 +16,6 @@ function App() {
       <AuthProvider>
         <NotificationProvider>
           <Routes>
-            
             <Route path="/" element={<Navigate to="/login" replace />} />
             <Route path="/products" element={<ProtectedRoute><Products/></ProtectedRoute>}/>
             <Route path="/login" element={<Login/>}/>

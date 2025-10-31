@@ -22,13 +22,13 @@ export default function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         const result = await register(
-            formData.name,
-            formData.email,
-            formData.password
+            formData.data.data.products.name,
+            formData.data.data.products.email,
+            formData.data.data.products.password
         )
         if (result.success) {
             showSuccess(result.message)
-            navigate('/Products')
+            navigate('/products')
         } else {
             showError(result.error)
             setError(result.error) 
@@ -99,7 +99,8 @@ export default function Register() {
 
                     </div>
                     <button 
-                    type='submit' 
+                    type='submit'
+                    to='/products' 
                     className='w-full bg-blue-600 text-white py-2 px-4 rounded-md hover-bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed'>
                         Inscription
                     </button>
@@ -116,7 +117,6 @@ export default function Register() {
             </div>
         </div>
     )
-
 }
 
 

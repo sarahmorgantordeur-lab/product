@@ -5,6 +5,7 @@ export default function ProductList( { products, handleDelete, handleEdit }) {
 
 
   const ProductCard = ({ product, handleDelete, handleEdit }) => {
+
     return (
       <div className="bg-200 rounded-lg">
         <div className="bg-200 rounded-lg flex flex-col">

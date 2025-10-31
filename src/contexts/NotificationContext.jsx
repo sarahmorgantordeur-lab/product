@@ -11,7 +11,7 @@ export const NotificationProvider = ({children}) => {
 
     const addNotification = (message , type ='info') => {
         const id = Date.now()
-        setNotification((prev) => [...prev, { id, message,type }])
+        setNotification((prev) => [...prev, { id, message, type }])
     }
 
     const removeNotification = (id) => {

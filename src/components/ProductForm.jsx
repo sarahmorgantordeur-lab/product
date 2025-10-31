@@ -13,10 +13,10 @@ export default function ProductForm ({ onSubmit, product }) {
     useEffect(() => {
         if (product) {
             setFormData({
-                name: product.name || '',
-                description: product.description || '',
-                price: product.price || '',
-                stock: product.stock || '',
+                name: product.data.data.products.name || '',
+                description: product.data.data.products.description || '',
+                price: product.data.data.products.price || '',
+                stock: product.data.data.products.stock || '',
             })
         } else {
             setFormData({ name: '', description: '', price: '', stock:'' })

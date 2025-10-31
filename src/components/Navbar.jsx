@@ -17,7 +17,7 @@ export default function Navbar() {
                     <h1 className='text-2xl font-bold'>My product</h1>
                     <div className='flex items-center gap-4'>
                         <span className='text-sm font-bold'>
-                            <span className='text-black font-bold text-2xl'>Bonjour {user?.name}</span>
+                            <span className='text-black font-bold text-2xl'>Bonjour {user?.data.name}</span>
                         </span>
                         <button className='bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 focus:oultine-none focus:ring-2 focus:ring-red-500' onClick={handleLogout}>
                             Déconnexion

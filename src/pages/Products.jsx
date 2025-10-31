@@ -20,23 +20,24 @@ export default function Products() {
   const fetchProducts = async () => {
     try {
       const response = await api.get("/products");
+
       if (Array.isArray(response.data)) {
         setProducts(response.data);
       } else if (
-        response.data?.products &&
-        Array.isArray(response.data.products)
+        response.data.data?.products &&
+        Array.isArray(response.data.data.products)
       ) {
-        setProducts(response.data.products);
+        setProducts(response.data.data.products);
       } else {
-        console.error("Unexpected API response format :", response.data);
+        console.error("Unexpected API response format :", response.data.data);
         setProducts([]);
         showError("Format de données inattendu");
       }
-      setProducts(response.data.products);
+      setProducts(response.data.data.products);
     } catch (error) {
       if (error.response?.status === 401) {
         localStorage.removeItem("token")
-        navigate("/login")
+        navigate("/auth/login")
       } else {
         showError(error.message?.data?.error || "Tout est pété !!!");
       }
@@ -72,10 +73,10 @@ export default function Products() {
     } else {
       try {
         const result = await api.post("/products", {
-          name: formData.name,
-          description: formData.description,
-          price: formData.price,
-          stock: formData.stock,
+          name: formData.data.data.products.name,
+          description: formData.data.data.products.description,
+          price: formData.data.data.products.price,
+          stock: formData.data.data.products.stock,
         });
         setProducts((prevProducts) => [...prevProducts, result.data]);
         showSuccess("Produit créé avec succès !");
